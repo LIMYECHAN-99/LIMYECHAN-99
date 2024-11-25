@@ -1,27 +1,15 @@
 steps:
-  # Step 1: Docker 이미지를 빌드
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      - 'build'
-      - '-t'
-      - 'gcr.io/$PROJECT_ID/my-flask-app'
-      - '.'
-
-  # Step 2: Cloud Run에 배포
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - 'run'
-      - 'deploy'
-      - 'my-flask-app'
-      - '--image'
-      - 'gcr.io/$PROJECT_ID/my-flask-app'
-      - '--region'
-      - 'us-central1'
-      - '--platform'
-      - 'managed'
-      - '--allow-unauthenticated'  # 외부에서 접근할 수 있도록 설정
-
-images:
-  - 'gcr.io/$PROJECT_ID/my-flask-app'
-
-timeout: 1200s
+ # Docker Build
+ - name: 'gcr.io/cloud-builders/docker'
+ args: ['build', '-t',
+ 'gcr.io/${PROJECT_ID}/myimage:test', '.']
+ # Docker push to Google Artifact Registry
+ - name: 'gcr.io/cloud-builders/docker'
+ args: ['push', 'gcr.io/${PROJECT_ID}/myimage:test']
+ # Deploy to Cloud Run
+ - name: google/cloud-sdk
+ args: ['gcloud', 'run', 'deploy', 'pythonweb',
+ '--image=gcr.io/${PROJECT_ID}/myimage:test',
+ '--port=5000',
+ '--region', 'asia-east1', '--platform', 'managed',
+ '--allow-unauthenticated']
