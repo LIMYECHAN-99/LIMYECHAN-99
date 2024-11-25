@@ -1,28 +1,15 @@
 steps:
-  # Docker 이미지 빌드
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/my-flask-app', '.']
-
-  # 빌드한 이미지를 Cloud Run에 배포
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    args:
-      - 'gcloud'
-      - 'run'
-      - 'deploy'
-      - 'my-flask-app'
-      - '--image'
-      - 'gcr.io/$PROJECT_ID/my-flask-app'
-      - '--platform'
-      - 'managed'
-      - '--region'
-      - 'us-central1'
-      - '--allow-unauthenticated'
-
-# 빌드 로그를 저장할 버킷을 지정합니다.
-options:
-  logging: CLOUD_LOGGING_ONLY
-  # 또는, 아래처럼 로그 버킷을 직접 지정할 수도 있습니다.
-  # logs_bucket: gs://your-log-bucket-name
-
-images:
-  - 'gcr.io/$PROJECT_ID/my-flask-app'
+ # Docker Build
+ - name: 'gcr.io/cloud-builders/docker'
+ args: ['build', '-t',
+ 'gcr.io/${PROJECT_ID}/myimage:test', '.']
+ # Docker push to Google Artifact Registry
+ - name: 'gcr.io/cloud-builders/docker'
+ args: ['push', 'gcr.io/${PROJECT_ID}/myimage:test']
+ # Deploy to Cloud Run
+ - name: google/cloud-sdk
+ args: ['gcloud', 'run', 'deploy', 'pythonweb',
+ '--image=gcr.io/${PROJECT_ID}/myimage:test',
+ '--port=5000',
+ '--region', 'asia-east1', '--platform', 'managed',
+ '--allow-unauthenticated']
