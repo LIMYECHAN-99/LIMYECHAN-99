@@ -1,5 +1,3 @@
-serviceAccount: "your-service-account@your-project.iam.gserviceaccount.com"  # 서비스 계정 지정
-
 steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/${PROJECT_ID}/myimage:test', '.']
@@ -15,7 +13,7 @@ steps:
       - 'pythonweb'
       - '--image=gcr.io/${PROJECT_ID}/myimage:test'
       - '--port=5000'
-      - '--region=asia-east1'
+      - '--region=us-central1'  # 리전 변경
       - '--platform=managed'
       - '--allow-unauthenticated'
 
