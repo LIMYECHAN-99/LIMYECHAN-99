@@ -20,6 +20,6 @@ steps:
       - '--platform=managed'
       - '--allow-unauthenticated'
 
-# 로그 버킷 설정 (필요한 경우 추가)
 options:
-  logging: CLOUD_LOGGING_ONLY
+  logging: "CLOUD_LOGGING_ONLY"  # 로그를 Cloud Logging에만 저장
+  service_account: "your-service-account@your-project.iam.gserviceaccount.com"  # 서비스 계정 지정
