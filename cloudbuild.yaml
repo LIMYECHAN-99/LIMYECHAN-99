@@ -13,7 +13,6 @@ steps:
       - 'pythonweb'
       - '--image=gcr.io/${PROJECT_ID}/myimage:test'
       - '--port=5000'
-      - '--region=asia-northeast3'  # 리전 변경 (주석이 바로 뒤에 위치해야 함)
       - '--platform=managed'
       - '--allow-unauthenticated'
 
