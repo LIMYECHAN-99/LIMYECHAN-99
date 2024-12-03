@@ -1,0 +1,2 @@
+build:
+  logs_bucket: 'gs://your-log-bucket'
